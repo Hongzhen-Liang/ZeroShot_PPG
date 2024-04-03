@@ -41,8 +41,8 @@ def loadPPG(dirs):
     Y = []
     Actions = os.listdir(dirs)
     for i in range(len(Actions)):
-        for s in os.listdir(os.path.join(dirs,Actions[i])):
-            X.append(processPPG(os.path.join(dirs,Actions[i],s)))
+        for s in os.listdir(os.path.join(dirs,Actions[i],"PPG")):
+            X.append(processPPG(os.path.join(dirs,Actions[i],"PPG",s)))
             Y.append(i)
 
     return X,Y
@@ -50,8 +50,6 @@ def loadPPG(dirs):
 
 
 X, y = loadPPG("../datasets")
-
-
 
 # iris = load_iris()
 # X = iris.data
