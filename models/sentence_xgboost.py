@@ -7,6 +7,9 @@ from pyPPG.datahandling import load_data
 import pyPPG.preproc as PP
 from scipy.fft import  fft, rfft, rfftfreq
 import numpy as np
+from sentence_transformers import SentenceTransformer
+sentence_model = SentenceTransformer("all-MiniLM-L6-v2")
+
 sampling_rate = 64
 
 def processPPG(file_path):
@@ -36,18 +39,31 @@ def processPPG(file_path):
 
 
 
-def loadPPG(dirs):
+def getSentenceVector(file_path):
+    f = open(file_path,'r')
+    description = f.readline()
+    embeddings = sentence_model.encode(description)
+    
+    # print(embeddings)
+    # exit()
+    return list(embeddings)
+
+def loadPPG_Sentence(dirs):
     X = []
     Y = []
     Actions = os.listdir(dirs)
     for i in range(len(Actions)):
+        tmp = getSentenceVector(os.path.join(dirs,Actions[i],"description.txt"))
         for s in os.listdir(os.path.join(dirs,Actions[i],"PPG")):
-            X.append(processPPG(os.path.join(dirs,Actions[i],"PPG",s)))
+            X.append(processPPG(os.path.join(dirs,Actions[i],"PPG",s))+tmp)
+            # X.append(tmp)
             Y.append(i)
 
     return X,Y
 
-X, y = loadPPG("datasets")
+
+
+X, y = loadPPG_Sentence("datasets")
 
 # iris = load_iris()
 # X = iris.data

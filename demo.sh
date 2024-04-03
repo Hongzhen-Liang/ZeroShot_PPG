@@ -1,0 +1,1 @@
+python3 models/zero_shot.py
