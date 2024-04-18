@@ -1,1 +1,1 @@
-python3 models/zero_shot.py
+python3 models/zero_shot_final.py
